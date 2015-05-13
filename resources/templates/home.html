@@ -1,0 +1,27 @@
+{{%/* see http://golang.org/pkg/html/template/ */%}}
+
+{{%/* we can name parts of our templates to call them from somewhere else */%}}
+{{% define "homePage" %}}
+
+  {{%/* loading the header template */%}}
+  {{% template "header" %}}
+<body>
+  <h1 ng-controller="HomeCtrl">{{ title }}</h1>
+  <h2>{{% .Intro %}}</h2>
+  <ul>
+  {{% range .Messages %}}
+    <li> {{% . %}} </li>
+  {{% end %}}
+  </ul>
+</body>
+<script src="/js/angular.min.js"></script>
+<script>
+  function HomeCtrl($scope) {
+    $scope.title = "Hello from Angular";
+  }
+</script>
+</html>
+
+</html>
+{{% end %}}
+

@@ -9,8 +9,19 @@ import (
 	"net/http"
 )
 
+type greetings struct {
+	Intro    string
+	Messages []string
+}
+
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Welcome!")
+	// fmt.Fprintln(w, "Welcome!")
+	passedObj := greetings{
+		Intro:    "Hello from Go!",
+		Messages: []string{"Hello!", "Hi!", "¡Hola!", "Bonjour!", "Ciao!", "<script>evilScript()</script>"},
+	}
+	templates.ExecuteTemplate(w, "homePage", passedObj)
+
 }
 
 func TodoIndex(w http.ResponseWriter, r *http.Request) {
