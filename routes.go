@@ -21,6 +21,12 @@ var routes = Routes{
 		TodoCreate,
 	},
 	Route{
+		"TodoDelete",
+		"DELETE",
+		"/v1/todos/{todoId}",
+		TodoDelete,
+	},
+	Route{
 		"Index",
 		"GET",
 		"/",
@@ -30,7 +36,7 @@ var routes = Routes{
 		"TodoIndex",
 		"GET",
 		"/v1/todos",
-		TodoIndex,
+		GetTodos,
 	},
 	Route{
 		"TodoShow",

@@ -5,23 +5,36 @@
 
   {{%/* loading the header template */%}}
   {{% template "header" %}}
-<body>
-  <h1 ng-controller="HomeCtrl">{{ title }}</h1>
+<body ng-controller="goAppCtrl">
+  <h1 >{{ title }}</h1>
   <h2>{{% .Intro %}}</h2>
   <ul>
   {{% range .Messages %}}
     <li> {{% . %}} </li>
   {{% end %}}
   </ul>
+
+  <div>
+    <input type="text" ng-model="todoSearch" placeholder="Search">  
+  </div>
+
+  <div>
+    <input type="text" ng-model="todo" placeholder="New ToDo">
+    <button ng-click="addToDo(todo)" ng-disabled="!todo || todo == '' ">Add</button>  
+  </div>
+
+  <div ng-repeat="todo in todos">
+      <span ng-class="{strike:todo.completed}">{{todo.name}}</span>
+      <span> <input type="checkbox" ng-model="todo.completed" ng-change="updateStatus()" ></span> 
+      <span ><button ng-click="deleteToDo(todo)">Delete</button>   <i class="fa fa-times"></i></span>
+  </div>
+
+
 </body>
 <script src="/js/angular.min.js"></script>
-<script>
-  function HomeCtrl($scope) {
-    $scope.title = "Hello from Angular";
-  }
-</script>
+<script src="/js/controller.js"></script>
 </html>
 
-</html>
+
 {{% end %}}
 
