@@ -27,6 +27,12 @@ var routes = Routes{
 		TodoDelete,
 	},
 	Route{
+		"TodoUpdate",
+		"PUT",
+		"/v1/todos/{todoId}",
+		TodoUpdate,
+	},
+	Route{
 		"Index",
 		"GET",
 		"/",

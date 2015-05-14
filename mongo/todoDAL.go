@@ -36,7 +36,12 @@ func FindToDos(collection *mgo.Collection) Todos {
 	}
 
 	log.Printf("%s", result)
-	return result
+	if len(result) > 0 {
+		return result
+	} else {
+		return nil
+	}
+
 }
 
 func DeleteToDo(collection *mgo.Collection, id string) int {
@@ -48,4 +53,14 @@ func DeleteToDo(collection *mgo.Collection, id string) int {
 		return http.StatusOK
 	}
 
+}
+
+func UpdateToDo(collection *mgo.Collection, id string, completed bool) int {
+	err = collection.Update(bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": bson.M{"completed": completed}})
+	if err != nil {
+		log.Printf("%s", err)
+		return http.StatusServiceUnavailable
+	} else {
+		return http.StatusOK
+	}
 }

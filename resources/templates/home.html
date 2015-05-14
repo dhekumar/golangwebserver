@@ -5,29 +5,49 @@
 
   {{%/* loading the header template */%}}
   {{% template "header" %}}
-<body ng-controller="goAppCtrl">
-  <h1 >{{ title }}</h1>
-  <h2>{{% .Intro %}}</h2>
-  <ul>
-  {{% range .Messages %}}
-    <li> {{% . %}} </li>
-  {{% end %}}
-  </ul>
+<body ng-controller="goAppCtrl"  style="  margin: 20px;  ">
+  
+ <div class="container">
 
-  <div>
-    <input type="text" ng-model="todoSearch" placeholder="Search">  
-  </div>
+    <h1>{{ title }}</h1>
+    
+    <!-- <h2>{{% .Intro %}}</h2>
+    <ul>
+    {{% range .Messages %}}
+      <li> {{% . %}} </li>
+    {{% end %}}
+    </ul>
+   -->
 
-  <div>
-    <input type="text" ng-model="todo" placeholder="New ToDo">
-    <button ng-click="addToDo(todo)" ng-disabled="!todo || todo == '' ">Add</button>  
-  </div>
+    <div >
+      
 
-  <div ng-repeat="todo in todos">
-      <span ng-class="{strike:todo.completed}">{{todo.name}}</span>
-      <span> <input type="checkbox" ng-model="todo.completed" ng-change="updateStatus()" ></span> 
-      <span ><button ng-click="deleteToDo(todo)">Delete</button>   <i class="fa fa-times"></i></span>
-  </div>
+      <div class="panel">
+        <div style="display:inline-block">
+          <input type="text" ng-model="todoSearch" placeholder="Search">  
+        </div>
+
+        <div style="display:inline-block">
+          <input type="text" ng-model="todo" placeholder="New ToDo">
+          <button class="btn btn-small btn-success" ng-click="addToDo(todo)" ng-disabled="!todo || todo == '' ">Add</button>  
+        </div>
+      </div>
+      
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="todo in todos | filter: {name:todoSearch}" > 
+          <input type="checkbox" ng-model="todo.completed" ng-change="updateToDo(todo)">
+          <span class="pull-right">
+            <button class="btn  btn-xs btn-danger" ng-click="deleteToDo(todo)">Delete</button>
+          </span>
+          <span ng-class="{strike:todo.completed}">{{todo.name}}</span>
+        </li>
+      </ul>
+
+    </div>
+     
+ </div>
+  
+  
 
 
 </body>

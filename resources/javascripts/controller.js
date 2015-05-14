@@ -5,7 +5,7 @@ app.controller('goAppCtrl', ['$scope','$http', function($scope,$http){
 
 		$scope.todos= [];
 
-		$scope.title = "Hello from Angular";
+		$scope.title = "ToDo GO Application ";
 
 		$scope.getTodos = function(){
 
@@ -14,7 +14,8 @@ app.controller('goAppCtrl', ['$scope','$http', function($scope,$http){
 			    // this callback will be called asynchronously
 			    // when the response is available
 			    console.log(data);
-			    $scope.todos = data;
+			    if(data)
+			    	$scope.todos = data;
 			  }).
 			  error(function(data, status, headers, config) {
 			    // called asynchronously if an error occurs
@@ -60,6 +61,22 @@ app.controller('goAppCtrl', ['$scope','$http', function($scope,$http){
 			    }
 			  }).
 			  error(function(data, status, headers, config) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		}
+
+		$scope.updateToDo = function(todo,completed){
+
+			$http.put('http://localhost:4000/v1/todos/'+todo.id,{completed:todo.completed}).
+			  success(function(data, status, headers, config) {
+			    // this callback will be called asynchronously
+			    // when the response is available
+			    console.log(data);
+			     
+			  }).
+			  error(function(data, status, headers, config) {
+			  	todo.completed = false;
 			    // called asynchronously if an error occurs
 			    // or server returns response with an error status.
 			  });

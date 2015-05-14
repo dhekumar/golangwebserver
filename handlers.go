@@ -111,3 +111,35 @@ func TodoDelete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(status)
 
 }
+
+func TodoUpdate(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	todoId := vars["todoId"]
+
+	var todo mongo.Todo
+
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	if err != nil {
+		panic(err)
+	}
+	if err := r.Body.Close(); err != nil {
+		panic(err)
+	}
+	log.Printf("body is %s", body)
+
+	if err := json.Unmarshal(body, &todo); err != nil {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+
+	log.Printf(" updating ToDO with Id %s", todoId)
+	status := mongo.UpdateToDo(mongo.GetToDoModel(), todoId, todo.Completed)
+	// status := mongo.DeleteToDO(mongo.GetToDoModel(), todo.Name)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(status)
+
+}
